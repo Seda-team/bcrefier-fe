@@ -15,15 +15,10 @@ export default (state, action) => {
         ...state,
         address: action.payload,
       };
-    case "UPDATE_READING_CLIENT":
+    case "UPDATE_BALANCE":
       return {
         ...state,
-        readingClient: action.payload,
-      };
-    case "UPDATE_SENDING_CLIENT":
-      return {
-        ...state,
-        sendingClient: action.payload,
-      };
+        balance: action.payload
+      }
   }
 };

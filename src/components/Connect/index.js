@@ -5,18 +5,35 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import UserInfoDialog from './UserInfoDialog';
+import { sepolia_rpc } from '../../shared/constant/constant';
 import Web3 from "web3"
 
 const Connect = () => {
-  const {updateConnect, connect, updateAddress, address, updateWeb3, web3} = useContext(GlobalContext)
+  const {updateConnect, connect, updateAddress, address, updateWeb3, web3, updateBalance, balance} = useContext(GlobalContext)
   const [open, setOpen] = useState(false)
   const [openUserInfo, setOpenUserInfo] = useState(false)
   
 
   useEffect(() => {
     if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
+      const web3 = new Web3(sepolia_rpc);
       updateWeb3(web3)
+      // Listen update account
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length === 0) {
+          updateAddress(null);
+          updateConnect(false)
+        } else {
+          updateAddress(accounts[0]);
+          // Update ETH Balance
+          web3.eth.getBalance(accounts[0])
+            .then((_balance) => {
+              let newBalance = balance
+              newBalance.eth = web3.utils.fromWei(_balance, 'ether')
+              updateBalance(newBalance)
+            })
+        }
+      });
     } else {
       console.log('MetaMask is not installed');
     }
@@ -46,6 +63,13 @@ const Connect = () => {
       .then((accounts) => {
         const account = accounts[0];
         updateAddress(account)
+        // Update ETH Balance
+        web3.eth.getBalance(account)
+          .then((_balance) => {
+            let newBalance = balance
+            newBalance.eth = web3.utils.fromWei(_balance, 'ether')
+            updateBalance(newBalance)
+          })
       }).catch((error) => {
         console.log(error);
       });
