@@ -6,7 +6,6 @@ const ProofCreation = () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
         paddingTop: "20px",
       }}
     >

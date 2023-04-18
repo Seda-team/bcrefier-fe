@@ -5,7 +5,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import UserInfoDialog from './UserInfoDialog';
-import { sepolia_rpc } from '../../shared/constant/constant';
+import { SEPOLIA_RPC } from '../../shared/constant/constant';
 import Web3 from "web3"
 
 const Connect = () => {
@@ -16,7 +16,7 @@ const Connect = () => {
 
   useEffect(() => {
     if (window.ethereum) {
-      const web3 = new Web3(sepolia_rpc);
+      const web3 = new Web3(SEPOLIA_RPC);
       updateWeb3(web3)
       // Listen update account
       window.ethereum.on('accountsChanged', (accounts) => {

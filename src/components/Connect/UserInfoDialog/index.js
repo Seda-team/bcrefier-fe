@@ -40,7 +40,7 @@ const UserInfoDialog = ({open, handleClose}) => {
     <DialogContent>
     <InformationRow title="Address" value={address} bold={true}/>
     <InformationRow title="Balance ETH" value={balance.eth + " ETH"} bold={true}/>
-    <InformationRow title="Balance USDT" value="1500 USDT" bold={true}/>
+    <InformationRow title="Transaction Amount" value="1000 ETH" bold={true}/>
     <InformationRow title="Liquidatation number" value="0" bold={true}/>
     <Typography textAlign={"right"} sx={{fontSize: "10px", fontWeight: 600, marginTop: "20px", marginRight: "10px"}}>*These informations are collected by Seda Team</Typography>
     </DialogContent>

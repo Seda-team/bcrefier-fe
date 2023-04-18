@@ -31,7 +31,7 @@ const ProofComponent = ({name, des}) => {
         >
           <Typography 
             variant="body2"
-            sx={{ fontSize: "17px", fontWeight: 1000 }}
+            sx={{ fontSize: "17px", fontWeight: 800 }}
             mr={1}>
             {name}
           </Typography>

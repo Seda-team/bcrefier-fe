@@ -56,7 +56,7 @@ const CustomedDialog = ({open, handleClose, title, des, requirement}) => {
     }}
   >
     <DialogTitle sx={{ textAlign: "center" }} mt={3}>
-        <Typography variant="h4" sx={{fontSize: "25px", fontWeight: 1000}}>{title}</Typography>
+        <Typography variant="h4" sx={{fontSize: "25px", fontWeight: 800}}>{title}</Typography>
         <Typography
             variant="body2"
             sx={{ fontSize: "13px", fontWeight: 500, marginTop: "10px" }}
