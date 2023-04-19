@@ -3,6 +3,7 @@ import { Box, Typography, Link } from "@mui/material";
 import Connect from "./components/Connect";
 import ProofCreation from "./components/ProofCreation";
 import ProofHistory from "./components/ProofHistory";
+import ProofVerification from "./components/ProofVerification";
 import { GlobalContext } from "./context/GlobalState";
 
 function App() {
@@ -90,7 +91,9 @@ function App() {
         <ProofCreation/>
         {address ? <ProofHistory/> : ""}
       </Box> :
-      ""}
+      <Box>
+        <ProofVerification/>
+      </Box>}
     </Box>
   );
 }
