@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { toDayTime } from '../../../shared/utils/time';
 
 const ProofHistoryRow = ({number, balance, amount, liquidation, status, time, proof}) => {
-  const [hideProof, setHideProof] = useState(true)
+  const [hideProof, setHideProof] = useState(false)
 
   return (
     <Box>
@@ -34,7 +34,7 @@ const ProofHistoryRow = ({number, balance, amount, liquidation, status, time, pr
           </Typography>
         </Grid>}
         {hideProof ? "" : <Grid item xs={2} pt={1}> 
-          <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", padding: "0 20px"}} mb={1}>
+          <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", padding: "0 20px"}}>
             <Typography
               variant="body2"
               textAlign={"center"}
@@ -62,7 +62,7 @@ const ProofHistoryRow = ({number, balance, amount, liquidation, status, time, pr
             sx={{ fontWeight: "800", fontSize: "15px" }}
             mb={1}
           >
-            {time}
+            {toDayTime(time)}
           </Typography>
         </Grid>}
         {hideProof ? "" : <Grid item xs={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>

@@ -128,18 +128,6 @@ const Connect = () => {
                 </Typography>
                 <UserInfoDialog open={openUserInfo} handleClose={handleCloseUserInfo}/>
               </Paper>  
-              <Paper elevation={1} sx={{
-                marginTop: "5px",
-                width: "100px",
-                backgroundColor: "#1E90FF", 
-                padding: "5px",
-                "&:hover": {
-                  cursor: "pointer"
-                }}}>
-                <Typography textAlign={"center"} variant="body2" sx={{color: "white", height: "20px", fontSize: "14px"}}>
-                  Log Out
-                </Typography>
-              </Paper>  
             </Box>
           </Box> 
         </Box>

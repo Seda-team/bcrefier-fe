@@ -4,18 +4,41 @@ import { GlobalContext } from '../../context/GlobalState';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { withdraw } from '../../shared/utils/others';
 import CreditOracleAbi from "../../abi/CreditOracleAbi.json"
-import { ORACLE_CONTRACT_ADDRESS } from '../../shared/constant/constant';
+import { ORACLE_CONTRACT_ADDRESS, SERVER } from '../../shared/constant/constant';
 import { createContract } from '../../shared/utils/contract';
+import { fetchData } from '../../shared/utils/others';
 import Web3 from 'web3';
 
 const ProofVerification = () => {
   const { address } = useContext(GlobalContext)
   const [proof, setProof] = useState("")
+  const [fetched, setFetched] = useState(false)
+  const [result, setResult] = useState(null)
 
   const handleVerify = async () => {
     const web3 = new Web3(window.ethereum)
     const CreditOracle_contract = await createContract(web3, CreditOracleAbi, ORACLE_CONTRACT_ADDRESS)
-    await withdraw(proof, CreditOracle_contract, address, web3)
+    const res = await withdraw(proof, CreditOracle_contract, address, web3)
+    console.log(res)
+    if(res === true) {
+      fetchData({ public_key: address, proof: proof }, SERVER + '/userProof/getProof')
+        .then(data => {
+          console.log(data)
+          setResult(data)
+          fetchData({ public_key: address, proof: proof }, SERVER + '/userProof/updateStatus')
+            .then(data => setResult(data))
+            .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+      setFetched(true)
+    } else {
+      fetchData({ public_key: address, proof: proof }, SERVER + '/userProof/getProof')
+        .then(data => {
+          setResult(data)
+        })
+        .catch(err => console.log(err))
+      setFetched(true)
+    }
   }
 
   return (
@@ -77,124 +100,142 @@ const ProofVerification = () => {
               </Button>
               
             </Box> 
-            <Grid container sx={{
-              background: "black", 
-              height: "50px", 
-              color: "#1E90FF", 
-              alignItems: "center", 
-              borderTopLeftRadius: "15px" ,
-              borderTopRightRadius: "15px",
-              paddingTop: "5px", 
-              borderBottom: "5px solid #1E90FF",}} mt={5}>
-              <Grid item xs={2}>
-                <Typography
-                  variant="body2"
-                  textAlign={"center"}
-                  sx={{ fontWeight: "800", fontSize: "16px" }}
-                  mb={1}
-                >
-                  Balance
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
-                  variant="body2"
-                  textAlign={"center"}
-                  sx={{ fontWeight: "800", fontSize: "16px" }}
-                  mb={1}
-                >
-                  Transaction Amount
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
+            {result !== null ? <Box>
+              <Grid container sx={{background: "black", 
+                height: "50px", 
+                color: "#1E90FF", 
+                alignItems: "center", 
+                borderTopLeftRadius: "15px" ,
+                borderTopRightRadius: "15px", 
+                borderBottom: "5px solid #1E90FF",}} mt={5}>
+                <Grid item xs={3}>
+                  <Typography
                     variant="body2"
                     textAlign={"center"}
                     sx={{ fontWeight: "800", fontSize: "16px" }}
                     mb={1}
                   >
-                  Liquidation Number
-                </Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography
-                    variant="body2"
-                    textAlign={"center"}
-                    sx={{ fontWeight: "800", fontSize: "16px" }}
-                    mb={1}
-                  >
-                    Owner
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
-                    variant="body2"
-                    textAlign={"center"}
-                    sx={{ fontWeight: "800", fontSize: "16px" }}
-                    mb={1}
-                  >
+                    Balance
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    Transaction Amount
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    Liquidatation Number
+                  </Typography>
+                </Grid>
+                <Grid item xs={1.5}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
                     Time
-                </Typography>
+                  </Typography>
+                </Grid>
+                <Grid item xs={1.5}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    Status
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container sx={{
-              background: "white", 
-              height: "40px", 
-              alignItems: "center", 
-              paddingTop: "5px",
-              borderBottomLeftRadius: "15px" ,
-              borderBottomRightRadius: "15px"}}>
-              <Grid item xs={2}>
-                <Typography
-                  variant="body2"
-                  textAlign={"center"}
-                  sx={{ fontWeight: "500", fontSize: "15px" }}
-                  mb={1}
-                >
-                  &gt; 50 ETH
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
-                  variant="body2"
-                  textAlign={"center"}
-                  sx={{ fontWeight: "500", fontSize: "15px" }}
-                  mb={1}
-                >
-                  &gt; 1000 ETH
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
+              <Grid container sx={{background: "white", 
+                height: "40px", 
+                color: "black", 
+                alignItems: "center", 
+                borderBottomLeftRadius: "15px" ,
+                borderBottomRightRadius: "15px", }} pt={1}>
+                <Grid item xs={3}>
+                  <Typography
                     variant="body2"
                     textAlign={"center"}
-                    sx={{ fontWeight: "500", fontSize: "15px" }}
+                    sx={{ fontWeight: "800", fontSize: "16px" }}
                     mb={1}
                   >
-                  x
-                </Typography>
+                    {result.balance}
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    {result.amount}
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    {result.liquidation}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1.5}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    {result.timestamp}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1.5} sx={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "10px"}}>
+                  {result.status === 0 ?
+                    <Box sx={{backgroundColor: "green", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
+                      <Typography
+                        variant="body2"
+                        textAlign={"center"}
+                        sx={{ fontWeight: "800", fontSize: "15px" }}
+                        mb={3}
+                      >
+                        Available
+                      </Typography>
+                    </Box> :
+                    <Box sx={{backgroundColor: "red", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
+                    <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "15px" }}
+                      mb={3}
+                    >
+                      Used
+                    </Typography>
+                  </Box>}
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Typography
-                    variant="body2"
-                    textAlign={"center"}
-                    sx={{ fontWeight: "500", fontSize: "15px" }}
-                    mb={1}
-                  >
-                    0xD89BB42daE2e5fFbdE73f11967afBdD59C0a554A
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
-                    variant="body2"
-                    textAlign={"center"}
-                    sx={{ fontWeight: "500", fontSize: "15px" }}
-                    mb={1}
-                  >
-                    19/04/2023
-                </Typography>
-              </Grid>
-            </Grid>
+              </Box> : <Box>
+                {fetched === true ? <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"
+                  // , backgroundColor: "black", height: "70px", width: "600px"
+                  }}>
+                    <Typography sx={{fontSize: "25px", fontWeight: "800", color: "#1E90FF"}} mt={5}>Invalid proof!</Typography>
+                  </Box> : ""}
+                </Box>}
           </Box>: 
           <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"
           // , backgroundColor: "black", height: "70px", width: "600px"

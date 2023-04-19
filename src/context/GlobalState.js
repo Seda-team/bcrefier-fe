@@ -6,6 +6,7 @@ const initialState = {
   address: null,
   connect: false,
   web3: null,
+  refresh: false,
   balance: {
     "eth": -1
   }
@@ -33,6 +34,10 @@ export const GlobalProvider = (props) => {
     dispatch({ type: "UPDATE_BALANCE", payload: _balance})
   }
 
+  const updateRefresh = (_refresh) => {
+    dispatch({ type: "UPDATE_REFRESH", refresh: _refresh})
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -40,10 +45,12 @@ export const GlobalProvider = (props) => {
         connect: state.connect,
         web3: state.web3,
         balance: state.balance,
+        refresh: state.refresh,
         updateWeb3,
         updateConnect,
         updateAddress,
-        updateBalance
+        updateBalance,
+        updateRefresh
       }}
     >
       {props.children}

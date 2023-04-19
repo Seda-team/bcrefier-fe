@@ -25,7 +25,7 @@ import { createContract } from '../../../shared/utils/contract';
 import { GlobalContext } from '../../../context/GlobalState';
 
 const CustomedDialog = ({open, handleClose, title, des}) => {
-  const { address } = useContext(GlobalContext)
+  const { address, refresh, updateRefresh } = useContext(GlobalContext)
   const [loading, setLoading] = useState(false);
   const [balance, setBalance] = useState("0");
   const [amount, setAmount] = useState("0");
@@ -48,31 +48,31 @@ const CustomedDialog = ({open, handleClose, title, des}) => {
   const getCondition = (proof) => {
     let arr = proof.split("-")
     let res = []
-    let amount = "Amount"
-    let balance = "Balance"
-    let liquidation = "Liquidation"
+    let amount = ""
+    let balance = ""
+    let liquidation = ""
     if(arr[5] == "1") {
-      amount += " > "
+      amount += "> "
     } else if(arr[5] == "2") {
-      amount += " < "
+      amount += "< "
     } else {
-      amount += " = "
+      amount += "= "
     }
 
     if(arr[6] == "1") {
-      balance += " > "
+      balance += "> "
     } else if(arr[6] == "2") {
-      balance += " < "
+      balance += "< "
     } else {
-      balance += " = "
+      balance += "= "
     }
 
     if(arr[7] == "1") {
-      liquidation += " > "
+      liquidation += "> "
     } else if(arr[7] == "2") {
-      liquidation += " < "
+      liquidation += "< "
     } else {
-      liquidation += " = "
+      liquidation += "= "
     }
 
     if(arr[2] != 0) {
@@ -121,6 +121,7 @@ const CustomedDialog = ({open, handleClose, title, des}) => {
       fetchData(data, SERVER + '/userProof/addProof')
         .then(data => console.log(data))
     }
+    updateRefresh(!refresh)
     setProof(res.note)
     setLoading(false)
     setOpenDone(true)

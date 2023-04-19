@@ -569,15 +569,27 @@ async function parseNote(noteString) {
    return createDeposit(amount, balance, liquidation,op1,op2,op3,nonce);
 }
 
-async function generateMerkleProof(deposit, CreditOracle_contract) {
+async function generateMerkleProof(deposit, CreditOracle_contract, address) {
   console.log('Getting contract state...')
   const events = await CreditOracle_contract.getPastEvents('Deposit', { fromBlock: 0, toBlock: 'latest' })
-  //console.log(events);
+
   const leaves = events
     .sort((a, b) => a.returnValues.leafIndex - b.returnValues.leafIndex) // Sort events in chronological order
     .map((e) => e.returnValues.commitment)
+  
+  const sender = events
+    .sort((a, b) => a.returnValues.leafIndex - b.returnValues.leafIndex) // Sort events in chronological order
+    .map((e) => e.returnValues.sender)
+
+  for (var i = 0;i < sender.length; i++) {
+    if (deposit.commitment == leaves[i]) {
+      if (sender[i].toLowerCase() != address) {
+        return null;
+      }
+    }
+  }
    //console.log(leaves);
-    const snark_input = await  computeInput(4,leaves,deposit.amount,deposit.balance,deposit.liquidation,deposit.op1,deposit.op2,deposit.op3,deposit.nonce);
+  const snark_input = await  computeInput(4,leaves,deposit.amount,deposit.balance,deposit.liquidation,deposit.op1,deposit.op2,deposit.op3,deposit.nonce);
 
   // Find current commitment in the tree
   return snark_input;
@@ -630,7 +642,7 @@ async function withdraw(note, CreditOracle_contract, address, web3) {
   const deposit = await parseNote(note);
   //console.log(deposit);
   // Compute merkle proof of our commitment
-  let input = await generateMerkleProof(deposit, CreditOracle_contract)
+  let input = await generateMerkleProof(deposit, CreditOracle_contract, address)
   //console.log(input);
 
   // Prepare circuit inpu
@@ -668,7 +680,11 @@ async function withdraw(note, CreditOracle_contract, address, web3) {
  
   //   //console.log(await web3.utils.hexToNumber(proofInputToSolidity.publicSignals[1]));
  
-  const tx = await CreditOracle_contract.methods.withdraw(p,input.digest,input.amount,input.balance,input.liquidition,op,deposit.commitment).send({from: address});
+  try {
+    const tx = await CreditOracle_contract.methods.withdraw(p,input.digest,input.amount,input.balance,input.liquidition,op,deposit.commitment).send({from: address});
+  } catch {
+    return false
+  } 
   return true
 }
 

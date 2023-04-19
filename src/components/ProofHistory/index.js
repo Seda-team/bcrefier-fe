@@ -6,7 +6,7 @@ import { fetchData } from '../../shared/utils/others'
 import { SERVER } from '../../shared/constant/constant'
 
 const ProofHistory = () => {
-  const { address } = useContext(GlobalContext)
+  const { address, refresh } = useContext(GlobalContext)
   const [proofData, setProofData] = useState([])
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ProofHistory = () => {
           console.log(data)
         })
     }
-  }, [address])
+  }, [address, refresh])
 
   return (
     <Box

@@ -20,5 +20,10 @@ export default (state, action) => {
         ...state,
         balance: action.payload
       }
+    case "UPDATE_REFRESH":
+      return {
+        ...state,
+        refresh: action.payload
+      }
   }
 };
