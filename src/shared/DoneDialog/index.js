@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import InformationRow from "../InformationRow";
 
-export default function DoneDialog({ open, handleClose, info }) {
-  console.log(Object.keys(info))
+export default function DoneDialog({ open, handleClose, proof }) {
   return (
     <Dialog
       open={open}
@@ -29,9 +28,14 @@ export default function DoneDialog({ open, handleClose, info }) {
         <Typography variant="h5" sx={{fontWeight: 800}} >Complete!</Typography>
       </DialogTitle>
       <DialogContent>
-        {info.map((data) => (
-          <InformationRow title={data[0]} value={data[1]} bold={true}/>
-        ))}
+        <Typography textAlign="center" variant="body2" sx={{fontSize: "15px"}}>
+          Here is your proof, please keep it private:
+        </Typography>
+        <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Typography textAlign="center" variant="body2" sx={{fontSize: "20px", fontWeight: 800, paddingTop: "20px", height: "50px", borderRadius: "15px", border: "3px solid #1E90FF", width: "400px"}} mt={2}>
+            {proof}
+          </Typography>
+        </Box>
       </DialogContent>
       <DialogContent>
       <Box
@@ -42,9 +46,6 @@ export default function DoneDialog({ open, handleClose, info }) {
             margin: "0 5%",
           }}
         >
-          <Typography variant="h4" textAlign={"center"} sx={{fontSize: "15px", fontWeight: 500}} mb={2}>
-             Your proof will be downloaded automatically!
-          </Typography>
         </Box>
         <Button
           sx={{

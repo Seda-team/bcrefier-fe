@@ -1,8 +1,17 @@
-import React from 'react'
-import { Container, Box, Typography, Paper, Grid } from "@mui/material";
-import ProofComponent from './ProofComponent';
+import React, {useState} from 'react'
+import { Container, Box, Typography, Paper, Button } from "@mui/material";
+import CustomedDialog from './CustomedDialog';
 
 const ProofCreation = () => {
+  const [open, setOpen] = useState(false)
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleClickCreate= async () => {
+    setOpen(true)
+  }
   return (
     <Box
       sx={{
@@ -26,7 +35,6 @@ const ProofCreation = () => {
               justifyContent: "space-between",
               alignItems: "center",
             }}
-            mb={5}
           >
             <Typography
               variant="body2"
@@ -36,18 +44,30 @@ const ProofCreation = () => {
               PROOF CREATION
             </Typography>
           </Box>
-          <Grid container sx={{display: "flex", justifyContent: "space-around"}}>
-            <Grid item xs={3}>
-              <ProofComponent name={"Proof Type 1"} des={"ETH balance"}/>
-            </Grid>
-            <Grid item xs={3}>
-              <ProofComponent name={"Proof Type 2"} des={"Transaction amount"}/>
-            </Grid>
-            <Grid item xs={3}>
-              <ProofComponent name={"Proof Type 3"} des={"Liquidation number"}/>
-            </Grid>
-          </Grid>
-         
+          <Box sx={{display: "flex", justifyContent: "center"}}>
+            <Button
+              sx={{
+                backgroundColor: "black",
+                color: "#1E90FF",
+                borderTop: "0 px solid #1E90FF",
+                borderRadius: "10px",
+                textTransform: "none",
+                width: "400px",
+                height: "60px",
+                fontSize: "25px",
+                fontWeight: "800",
+                "&:hover": {
+                  cursor: "pointer"
+                }
+              }}
+              onClick={handleClickCreate}
+            >
+              Create
+            </Button>
+            <CustomedDialog open={open} 
+            handleClose={handleClose} 
+            title={"Create Credit Proof"}/>
+          </Box>
         </Paper>
         </Box>
       </Container>

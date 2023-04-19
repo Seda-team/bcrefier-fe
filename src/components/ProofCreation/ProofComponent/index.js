@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Box, Paper, Typography, Button } from '@mui/material'
 import { GlobalContext } from '../../../context/GlobalState'
 import CustomedDialog from '../../../shared/CustomedDialog'
+import { deposit } from '../../../shared/utils/others'
 
 const ProofComponent = ({name, des}) => {
   const { address } = useContext(GlobalContext) 
@@ -11,12 +12,7 @@ const ProofComponent = ({name, des}) => {
     setOpen(false)
   }
 
-  const handleClickCreate= () => {
-    // if(!address) {
-    //   alert("Please connect your wallet!")
-    // }else {
-    //   setOpen(true)
-    // }
+  const handleClickCreate= async () => {
     setOpen(true)
   }
   return (
