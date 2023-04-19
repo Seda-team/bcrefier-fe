@@ -3,15 +3,16 @@ import { Box, Grid, Typography } from '@mui/material'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-const ProofHistoryRow = ({number, type, condition, time, proof, status}) => {
+const ProofHistoryRow = ({number, balance, amount, liquidation, status, time, proof}) => {
   const [hideProof, setHideProof] = useState(true)
+
   return (
     <Box>
       <Grid container sx={{background: "white", 
         height: "45px", 
         alignItems: "center", 
         borderBottom: "3px solid #1E90FF"}}>
-        <Grid item xs={1} pt={1}>
+        <Grid item xs={2} pt={1} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Typography
             variant="body2"
             textAlign={"center"}
@@ -20,43 +21,41 @@ const ProofHistoryRow = ({number, type, condition, time, proof, status}) => {
           >
             {number}
           </Typography>
+          <RemoveRedEyeIcon sx={{color: "grey", marginBottom: "10px", marginLeft: "20px"}} onClick={() => setHideProof(!hideProof)}/>
         </Grid>
-        <Grid item xs={2} pt={1}>
+        {hideProof ? "" : <Grid item xs={2} pt={1}>
           <Typography
             variant="body2"
             textAlign={"center"}
             sx={{ fontWeight: "800", fontSize: "15px" }}
             mb={1}
           >
-            {type}
+            {balance}
           </Typography>
-        </Grid>
-        <Grid item xs={4} pt={1}> 
-          <Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px"}} mb={1}>
-            {hideProof ? 
-              <Typography
-                variant="body2"
-                textAlign={"center"}
-                sx={{ fontWeight: "800", fontSize: "15px" }}
-              >
-                {condition}
-              </Typography>
-            : 
-            <Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}} >
-              <Typography
-                variant="body2"
-                textAlign={"center"}
-                sx={{ fontWeight: "800", fontSize: "15px", backgroundColor: "grey", color: "white" }}
-                mr={4}
-              >
-                {proof}
-              </Typography>
-              <ContentCopyIcon sx={{color: "grey"}} />
-            </Box>} 
-            <RemoveRedEyeIcon sx={{color: "grey"}} onClick={() => setHideProof(!hideProof)}/>
+        </Grid>}
+        {hideProof ? "" : <Grid item xs={2} pt={1}> 
+          <Box sx={{display: "flex", alignItems: "center", justifyContent: "center", padding: "0 20px"}} mb={1}>
+            <Typography
+              variant="body2"
+              textAlign={"center"}
+              sx={{ fontWeight: "800", fontSize: "15px" }}
+              mb={1}
+            >
+              {amount}
+            </Typography>
           </Box>
-        </Grid>
-        <Grid item xs={2} pt={1}>
+        </Grid>}
+        {hideProof ? "" : <Grid item xs={2} pt={1}>
+          <Typography
+            variant="body2"
+            textAlign={"center"}
+            sx={{ fontWeight: "800", fontSize: "15px" }}
+            mb={1}
+          >
+            {liquidation}
+          </Typography>
+        </Grid>}
+        {hideProof ? "" : <Grid item xs={2} pt={1}>
           <Typography
             variant="body2"
             textAlign={"center"}
@@ -65,9 +64,9 @@ const ProofHistoryRow = ({number, type, condition, time, proof, status}) => {
           >
             {time}
           </Typography>
-        </Grid>
-        <Grid item xs={3} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          {status === "Available" ?
+        </Grid>}
+        {hideProof ? "" : <Grid item xs={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          {status === 0 ?
             <Box sx={{backgroundColor: "green", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
               <Typography
                 variant="body2"
@@ -75,7 +74,7 @@ const ProofHistoryRow = ({number, type, condition, time, proof, status}) => {
                 sx={{ fontWeight: "800", fontSize: "15px" }}
                 mb={1}
               >
-                {status}
+                Available
               </Typography>
             </Box> :
             <Box sx={{backgroundColor: "red", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
@@ -85,10 +84,20 @@ const ProofHistoryRow = ({number, type, condition, time, proof, status}) => {
               sx={{ fontWeight: "800", fontSize: "15px" }}
               mb={1}
             >
-              {status}
+              Used
             </Typography>
           </Box>}
-        </Grid>
+        </Grid>}
+        {hideProof ? <Grid item xs={10}sx={{display: "flex", justifyContent: "center", width: "500px", height: "40px" }}>
+          <Typography
+            variant="body2"
+            textAlign={"center"}
+            sx={{ fontWeight: "800", fontSize: "18px", backgroundColor: "grey", height: "35px", width: "400px", paddingTop: "5px", color: "white", borderRadius: "10px" }}
+            mb={1}
+          >
+            {proof}
+          </Typography>
+        </Grid> : ''}
       </Grid>
     </Box>
   )

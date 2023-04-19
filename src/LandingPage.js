@@ -38,7 +38,7 @@ function LandingPage() {
         <Typography variant="h1" sx={{color: "#DCDCDC", fontFamily: "Arial", padding: "50px", paddingBottom: "20px", fontWeight: 700, borderBottom: "7px solid #DCDCDC"}}>BCrefier</Typography>
       </Box>
       <Box sx={{display: "flex", justifyContent: "center"}}>
-        <Typography variant="h4" sx={{color: "#DCDCDC", fontFamily: "Arial", fontWeight: 500, paddingTop: "30px", fontStyle: "italic"}}>Blockchain Credit Verifier for Defi Lending</Typography>
+        <Typography variant="h4" sx={{color: "#DCDCDC", fontFamily: "Arial", fontWeight: 500, paddingTop: "30px", fontStyle: "italic"}}>Credit Verifier on Blockchain</Typography>
       </Box>
       <Box>
         <Grid container sx={{padding: "100px", display: "flex", justifyContent: "space-around"}}>

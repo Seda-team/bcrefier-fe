@@ -1,4 +1,4 @@
-import React, {useState, useEffect}from 'react'
+import React, {useState, useEffect, useContext}from 'react'
 import {
   Button,
   Dialog,
@@ -17,9 +17,15 @@ import DoneDialog from '../../../shared/DoneDialog';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
-import { deposit } from '../../../shared/utils/others';
+import CreditOracleAbi from "../../../abi/CreditOracleAbi.json"
+import Web3 from 'web3';
+import { ORACLE_CONTRACT_ADDRESS, SERVER } from '../../../shared/constant/constant';
+import { deposit, fetchData } from '../../../shared/utils/others';
+import { createContract } from '../../../shared/utils/contract';
+import { GlobalContext } from '../../../context/GlobalState';
 
 const CustomedDialog = ({open, handleClose, title, des}) => {
+  const { address } = useContext(GlobalContext)
   const [loading, setLoading] = useState(false);
   const [balance, setBalance] = useState("0");
   const [amount, setAmount] = useState("0");
@@ -39,9 +45,82 @@ const CustomedDialog = ({open, handleClose, title, des}) => {
     setOp("1")
   }
 
+  const getCondition = (proof) => {
+    let arr = proof.split("-")
+    let res = []
+    let amount = "Amount"
+    let balance = "Balance"
+    let liquidation = "Liquidation"
+    if(arr[5] == "1") {
+      amount += " > "
+    } else if(arr[5] == "2") {
+      amount += " < "
+    } else {
+      amount += " = "
+    }
+
+    if(arr[6] == "1") {
+      balance += " > "
+    } else if(arr[6] == "2") {
+      balance += " < "
+    } else {
+      balance += " = "
+    }
+
+    if(arr[7] == "1") {
+      liquidation += " > "
+    } else if(arr[7] == "2") {
+      liquidation += " < "
+    } else {
+      liquidation += " = "
+    }
+
+    if(arr[2] != 0) {
+      amount += arr[2]
+    } else {
+      amount = "x"
+    }
+
+    if(arr[3] != 0) {
+      balance += arr[3]
+    } else {
+      balance = "x"
+    }
+    if(arr[4] != 0) {
+      liquidation += arr[4]
+    } else {
+      liquidation = "x"
+    }
+
+    res.push(amount)
+    res.push(balance)
+    res.push(liquidation)
+    res.push(arr[8])
+
+    return res
+  }
+
   const handleOpenDone = async () => {
     setLoading(true)
-    let res = await deposit(amount, balance, liquidation, amountOp, balanceOp, liquidationOp)
+    const web3 = new Web3(window.ethereum)
+    let CreditOracle_contract = await createContract(web3, CreditOracleAbi, ORACLE_CONTRACT_ADDRESS)
+    let res = await deposit(amount, balance, liquidation, amountOp, balanceOp, liquidationOp, CreditOracle_contract, address)
+    console.log(res)
+    if(res !== null) {
+      let condition = getCondition(res.note)
+      let data = {
+        "public_key": address,
+        "proof": res.note,
+        "timestamp": Math.floor(new Date().getTime() / 1000).toString(),
+        "amount": condition[0],
+        "balance": condition[1],
+        "liquidation": condition[2],
+        "nonce": condition[3],
+        "status": 0
+      }
+      fetchData(data, SERVER + '/userProof/addProof')
+        .then(data => console.log(data))
+    }
     setProof(res.note)
     setLoading(false)
     setOpenDone(true)

@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Box, Paper, Typography, Container, Grid } from '@mui/material'
 import ProofHistoryRow from './ProofHistoryRow'
+import { GlobalContext } from '../../context/GlobalState'
+import { fetchData } from '../../shared/utils/others'
+import { SERVER } from '../../shared/constant/constant'
 
 const ProofHistory = () => {
+  const { address } = useContext(GlobalContext)
+  const [proofData, setProofData] = useState([])
+
+  useEffect(() => {
+    if(address != null) {
+      let data = {"public_key": address}
+      fetchData(data, SERVER + '/userProof/getAllProof')
+        .then(data => {
+          setProofData(data)
+          console.log(data)
+        })
+    }
+  }, [address])
+
   return (
     <Box
       sx={{
@@ -37,14 +54,14 @@ const ProofHistory = () => {
               PROOF HISTORY
             </Typography>
           </Box> 
-          <Grid container sx={{background: "black", 
+          {proofData.length > 0 ?<Box> <Grid container sx={{background: "black", 
             height: "50px", 
             color: "#1E90FF", 
             alignItems: "center", 
             borderTopLeftRadius: "15px" ,
             borderTopRightRadius: "15px", 
             borderBottom: "5px solid #1E90FF",}}>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Typography
                 variant="body2"
                 textAlign={"center"}
@@ -61,17 +78,7 @@ const ProofHistory = () => {
                 sx={{ fontWeight: "800", fontSize: "16px" }}
                 mb={1}
               >
-                Proof Type
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                  variant="body2"
-                  textAlign={"center"}
-                  sx={{ fontWeight: "800", fontSize: "16px" }}
-                  mb={1}
-                >
-                  Condition / Proof
+                Balance
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -81,24 +88,47 @@ const ProofHistory = () => {
                   sx={{ fontWeight: "800", fontSize: "16px" }}
                   mb={1}
                 >
-                  Time
+                Transaction Amount
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography
                   variant="body2"
                   textAlign={"center"}
                   sx={{ fontWeight: "800", fontSize: "16px" }}
                   mb={1}
                 >
-                  Status
+                Liquidatation Number
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                  variant="body2"
+                  textAlign={"center"}
+                  sx={{ fontWeight: "800", fontSize: "16px" }}
+                  mb={1}
+                >
+                Time
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography
+                  variant="body2"
+                  textAlign={"center"}
+                  sx={{ fontWeight: "800", fontSize: "16px" }}
+                  mb={1}
+                >
+                Status
               </Typography>
             </Grid>
           </Grid>
-          <ProofHistoryRow number={1} type={1} condition={"Balance > 50"} time={"19/04/2023"} proof={"12312423523153125345324"} status={"Available"}/>
-          <ProofHistoryRow number={2} type={3} condition={"Liquidation number < 3"} time={"19/04/2023"} proof={"12312423523153125345324"} status={"Used"}/>
-          <ProofHistoryRow number={3} type={1} condition={"Balance > 100"} time={"19/04/2023"} proof={"12312423523153125345324"} status={"Used"}/>
-          <ProofHistoryRow number={4} type={2} condition={"Transaction Amount > 1000"} proof={"12312423523153125345324"} time={"19/04/2023"} status={"Available"}/>
+          {proofData.map((value, key) => (
+            <ProofHistoryRow key={key} number={key + 1} balance={value.balance} amount={value.amount} liquidation={value.liquidation} time={value.timestamp} status={value.status} proof={value.proof}/>
+          ))} </Box> : <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"
+          // , backgroundColor: "black", height: "70px", width: "600px"
+          }}>
+            <Typography sx={{fontSize: "25px", fontWeight: "800", color: "#1E90FF"}}variant>No proof to show!</Typography>
+          </Box>}
         </Paper>
         </Box>
       </Container>

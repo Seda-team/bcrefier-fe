@@ -2,10 +2,21 @@ import React, {useContext, useState} from 'react'
 import { Container, Box, Typography, Paper, Button, TextField, Grid } from "@mui/material";
 import { GlobalContext } from '../../context/GlobalState';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
+import { withdraw } from '../../shared/utils/others';
+import CreditOracleAbi from "../../abi/CreditOracleAbi.json"
+import { ORACLE_CONTRACT_ADDRESS } from '../../shared/constant/constant';
+import { createContract } from '../../shared/utils/contract';
+import Web3 from 'web3';
 
 const ProofVerification = () => {
   const { address } = useContext(GlobalContext)
   const [proof, setProof] = useState("")
+
+  const handleVerify = async () => {
+    const web3 = new Web3(window.ethereum)
+    const CreditOracle_contract = await createContract(web3, CreditOracleAbi, ORACLE_CONTRACT_ADDRESS)
+    await withdraw(proof, CreditOracle_contract, address, web3)
+  }
 
   return (
     <Box
@@ -60,6 +71,7 @@ const ProofVerification = () => {
                     cursor: "pointer"
                   }
                 }}
+                onClick={() => handleVerify()}
               >
                 Verify
               </Button>

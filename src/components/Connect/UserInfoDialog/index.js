@@ -25,8 +25,6 @@ const UserInfoDialog = ({open, handleClose}) => {
       
   }, [address])
 
-  console.log(userInfo)
-
   const handleCloseDialog = () => {
     handleClose()
   }
