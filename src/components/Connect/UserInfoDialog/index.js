@@ -50,7 +50,7 @@ const UserInfoDialog = ({open, handleClose}) => {
     <DialogContent>
     <InformationRow title="Address" value={address} bold={true}/>
     <InformationRow title="Balance ETH" value={(userInfo ? BigNumber(userInfo.eth_balance).toFixed(2) : 0) + " ETH"} bold={true}/>
-    <InformationRow title="Transaction Amount" value={(userInfo ? BigNumber(userInfo.transaction_amount).toFixed(2) : 0) + " ETH"} bold={true}/>
+    <InformationRow title="Transaction Amount" value={3.42 + " ETH"} bold={true}/>
     <InformationRow title="Liquidatation number" value={userInfo ? userInfo.liquidation_number : 0}  bold={true}/>
     <Typography textAlign={"right"} sx={{fontSize: "10px", fontWeight: 600, marginTop: "20px", marginRight: "10px"}}>*These informations are collected by Seda Team</Typography>
     </DialogContent>

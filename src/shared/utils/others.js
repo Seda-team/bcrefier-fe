@@ -589,7 +589,7 @@ async function generateMerkleProof(deposit, CreditOracle_contract, address) {
     }
   }
    //console.log(leaves);
-  const snark_input = await  computeInput(4,leaves,deposit.amount,deposit.balance,deposit.liquidation,deposit.op1,deposit.op2,deposit.op3,deposit.nonce);
+  const snark_input = await  computeInput(10,leaves,deposit.amount,deposit.balance,deposit.liquidation,deposit.op1,deposit.op2,deposit.op3,deposit.nonce);
 
   // Find current commitment in the tree
   return snark_input;
