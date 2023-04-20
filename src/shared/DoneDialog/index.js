@@ -9,6 +9,7 @@ import {
   Box
 } from "@mui/material";
 import InformationRow from "../InformationRow";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export default function DoneDialog({ open, handleClose, proof }) {
   return (
@@ -33,7 +34,7 @@ export default function DoneDialog({ open, handleClose, proof }) {
         </Typography>
         <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Typography textAlign="center" variant="body2" sx={{fontSize: "20px", fontWeight: 800, paddingTop: "20px", height: "50px", borderRadius: "15px", border: "3px solid #1E90FF", width: "400px"}} mt={2}>
-            {proof}
+            {proof} <ContentCopyIcon sx={{fontSize: "20px", marginLeft: "20px"}}/>
           </Typography>
         </Box>
       </DialogContent>

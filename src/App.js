@@ -16,18 +16,18 @@ function App() {
   
   return (
     <Box sx={{backgroundColor: "#DCDCDC", minHeight: "100vh"}}>
-      <Box sx={{height: "50px",
+      <Box sx={{height: "70px",
         backgroundColor: "black", 
         display: "flex", 
         justifyContent: "space-between", 
         alignItems: "center", 
-        paddingLeft: "100px", 
         paddingRight: "100px"}}>
 
         <Link sx={{textDecoration: "none"}} href="/">
-          <Typography sx={{color: "white", fontWeight: "800", fontSize: "20px"}}>
-            BCrefier
-          </Typography>
+          <Box sx={{display: "flex", alignItems: "center"}}>
+            <img id="header-logo" src="images/logo2.png"/>
+            <img id="header-text" src="images/logo5.png"/>
+          </Box>
         </Link>
         
         <Connect/>
@@ -94,6 +94,46 @@ function App() {
       <Box>
         <ProofVerification/>
       </Box>}
+      <Box sx={{
+          color: "black",
+          borderTop: "0 px solid white",
+          borderRadius: "15px",
+          textTransform: "none",
+          width: "100%",
+          height: "40px",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}>
+          <Box sx={{
+                backgroundColor: "black",
+                color: "black",
+                textTransform: "none",
+                width: "180px",
+                height: "30px",
+                position: "fixed",
+                bottom: "20px",
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center",
+                marginRight: "100px",
+                marginLeft: "50px",
+                marginBottom: "20px"}}>
+                  
+                <img id="power-icon" src="images/logo2.png" /> 
+              <Typography
+                sx={{
+                  
+                  fontSize: "12px",
+                  color: "white",
+                  fontWeight: "800"
+                }}
+                pt={0.5}
+              >
+                Powered by SeDa Team
+              </Typography>
+            </Box>
+      </Box>
     </Box>
   );
 }

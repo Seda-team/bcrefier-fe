@@ -2,30 +2,35 @@ import { Box, Button, Typography, Grid, Paper, Link } from "@mui/material";
 
 function LandingPage() {
   return (
-    <Box sx={{height: "100vh", backgroundColor: "#001E3C"}}>
+    <Box sx={{minHeight: "100vh", backgroundImage: "linear-gradient(to left, #46b2e1, #1b3a82)"}}>
       <Box sx={{
+        backgroundColor: "black",
         color: "black",
         borderTop: "0 px solid white",
-        borderRadius: "15px",
         textTransform: "none",
         width: "100%",
-        height: "40px",
+        height: "70px",
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         alignItems: "center",
+        boxShadow: "0 0 10px #265D97",
       }}>
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          <img id="header-logo" src="images/logo2.png"/>
+          <img id="header-text" src="images/logo5.png"/>
+        </Box>
+        
         <Link href="/app" sx={{textDecoration: "none"}}>
           <Button
             sx={{
-              marginTop: "30px",
               backgroundColor: "#DCDCDC",
               color: "black",
               borderTop: "0 px solid white",
-              borderRadius: "15px",
+              borderRadius: "10px",
               textTransform: "none",
               width: "150px",
               height: "40px",
-              fontSize: "18px",
+              fontSize: "20px",
               fontWeight: "800",
               marginRight: "100px"
             }}
@@ -34,14 +39,19 @@ function LandingPage() {
           </Button>
         </Link>
       </Box>
-      <Box sx={{display: "flex", justifyContent: "center"}}>
-        <Typography variant="h1" sx={{color: "#DCDCDC", fontFamily: "Arial", padding: "50px", paddingBottom: "20px", fontWeight: 700, borderBottom: "7px solid #DCDCDC"}}>BCrefier</Typography>
+      <Box sx={{display: "flex", alignItems: "center", justifyContent: "space-around"}}>
+        <img id="landing-page1" src="images/BCrefier.png"/>
+        <img id="landing-page2" src="images/Technology.png"/>
+      </Box>
+      
+      {/* <Box sx={{display: "flex", justifyContent: "center"}}>
+        <img id="body-logo" src="images/logo3.png"/>
       </Box>
       <Box sx={{display: "flex", justifyContent: "center"}}>
         <Typography variant="h4" sx={{color: "#DCDCDC", fontFamily: "Arial", fontWeight: 500, paddingTop: "30px", fontStyle: "italic"}}>Credit Verifier on Blockchain</Typography>
       </Box>
       <Box>
-        <Grid container sx={{padding: "100px", display: "flex", justifyContent: "space-around"}}>
+        <Grid container sx={{padding: "100px", paddingTop: "50px", paddingBottom: "70px", display: "flex", justifyContent: "space-around"}}>
           <Grid item xs={3} >
             <Paper elevation={1} sx={{
               backgroundColor: "#DCDCDC",
@@ -90,7 +100,7 @@ function LandingPage() {
           justifyContent: "flex-start",
           alignItems: "center",
         }}>
-          <Box sx={{marginTop: "30px",
+          <Box sx={{
                 backgroundColor: "#DCDCDC",
                 color: "black",
                 textTransform: "none",
@@ -113,6 +123,45 @@ function LandingPage() {
               </Typography>
             </Box>
       </Box>
+      </Box> */}
+      <Box sx={{
+          color: "black",
+          borderTop: "0 px solid white",
+          borderRadius: "15px",
+          textTransform: "none",
+          width: "100%",
+          height: "40px",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}>
+          <Box sx={{
+                backgroundColor: "#DCDCDC",
+                color: "black",
+                textTransform: "none",
+                width: "180px",
+                height: "30px",
+                position: "absolute",
+                bottom: "20px",
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center",
+                marginRight: "100px",
+                marginLeft: "50px",
+                marginBottom: "20px"}}>
+                  
+                <img id="power-icon" src="images/logo6.png" /> 
+              <Typography
+                sx={{
+                  
+                  fontSize: "12px",
+                  fontWeight: "800"
+                }}
+                pt={0.5}
+              >
+                Powered by SeDa Team
+              </Typography>
+            </Box>
       </Box>
     </Box>
   );

@@ -7,6 +7,7 @@ import CreditOracleAbi from "../../abi/CreditOracleAbi.json"
 import { ORACLE_CONTRACT_ADDRESS, SERVER } from '../../shared/constant/constant';
 import { createContract } from '../../shared/utils/contract';
 import { fetchData } from '../../shared/utils/others';
+import { toDayTime } from '../../shared/utils/time';
 import Web3 from 'web3';
 
 const ProofVerification = () => {
@@ -108,7 +109,7 @@ const ProofVerification = () => {
                 borderTopLeftRadius: "15px" ,
                 borderTopRightRadius: "15px", 
                 borderBottom: "5px solid #1E90FF",}} mt={5}>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                     variant="body2"
                     textAlign={"center"}
@@ -118,7 +119,7 @@ const ProofVerification = () => {
                     Balance
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
@@ -128,7 +129,7 @@ const ProofVerification = () => {
                     Transaction Amount
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
@@ -138,7 +139,7 @@ const ProofVerification = () => {
                     Liquidatation Number
                   </Typography>
                 </Grid>
-                <Grid item xs={1.5}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
@@ -148,7 +149,17 @@ const ProofVerification = () => {
                     Time
                   </Typography>
                 </Grid>
-                <Grid item xs={1.5}>
+                <Grid item xs={2}>
+                  <Typography
+                      variant="body2"
+                      textAlign={"center"}
+                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      mb={1}
+                    >
+                    Owner
+                  </Typography>
+                </Grid>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
@@ -165,69 +176,78 @@ const ProofVerification = () => {
                 alignItems: "center", 
                 borderBottomLeftRadius: "15px" ,
                 borderBottomRightRadius: "15px", }} pt={1}>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                     variant="body2"
                     textAlign={"center"}
-                    sx={{ fontWeight: "800", fontSize: "16px" }}
+                    sx={{ fontWeight: "800", fontSize: "15px" }}
                     mb={1}
                   >
                     {result.balance}
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
-                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      sx={{ fontWeight: "800", fontSize: "15px" }}
                       mb={1}
                     >
                     {result.amount}
                   </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
-                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      sx={{ fontWeight: "800", fontSize: "15px" }}
                       mb={1}
                     >
                     {result.liquidation}
                   </Typography>
                 </Grid>
-                <Grid item xs={1.5}>
+                <Grid item xs={2}>
                   <Typography
                       variant="body2"
                       textAlign={"center"}
-                      sx={{ fontWeight: "800", fontSize: "16px" }}
+                      sx={{ fontWeight: "800", fontSize: "15px" }}
                       mb={1}
                     >
-                    {result.timestamp}
+                    {toDayTime(result.timestamp)}
                   </Typography>
                 </Grid>
-                <Grid item xs={1.5} sx={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "10px"}}>
-                  {result.status === 0 ?
-                    <Box sx={{backgroundColor: "green", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
-                      <Typography
-                        variant="body2"
-                        textAlign={"center"}
-                        sx={{ fontWeight: "800", fontSize: "15px" }}
-                        mb={3}
-                      >
-                        Available
-                      </Typography>
-                    </Box> :
-                    <Box sx={{backgroundColor: "red", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
-                    <Typography
+                <Grid item xs={2} sx={{display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "10px"}}>
+                  <Typography
                       variant="body2"
                       textAlign={"center"}
                       sx={{ fontWeight: "800", fontSize: "15px" }}
-                      mb={3}
                     >
-                      Used
-                    </Typography>
-                  </Box>}
+                    {result.public_key.slice(0, 6) + "..." + result.public_key.slice(36, 42)}
+                  </Typography>
                 </Grid>
+                <Grid item xs={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}} mb={1.5}>
+              {result.status === 0 ?
+                <Box sx={{backgroundColor: "green", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
+                  <Typography
+                    variant="body2"
+                    textAlign={"center"}
+                    sx={{ fontWeight: "800", fontSize: "15px" }}
+                    mb={1}
+                  >
+                    Available
+                  </Typography>
+                </Box> :
+                <Box sx={{backgroundColor: "red", width: "90px", color: "white", borderRadius: "10px", height: "22px"}}>
+                <Typography
+                  variant="body2"
+                  textAlign={"center"}
+                  sx={{ fontWeight: "800", fontSize: "15px" }}
+                  mb={1}
+                >
+                  Used
+                </Typography>
+              </Box>}
+        </Grid>
               </Grid>
               </Box> : <Box>
                 {fetched === true ? <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"

@@ -99,7 +99,7 @@ const Connect = () => {
             fontWeight: "500", 
             marginRight: "15px"}}
           >
-              {address.slice(0, 15)} ...
+              {address.slice(0, 6) + "..." + address.slice(36, 42)}
           </Typography>
           <Box>
             <Box sx={{display: "flex", alignItems: "center"}}>
