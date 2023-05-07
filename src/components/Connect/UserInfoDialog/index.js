@@ -8,11 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import InformationRow from '../../../shared/InformationRow';
-import { GlobalContext } from '../../../context/GlobalState';
-import { SERVER } from '../../../shared/constant/constant';
+import InformationRow from '../../shared/InformationRow';
+import { GlobalContext } from '../../context/GlobalState';
+import { SERVER } from '../../shared/constant/constant';
 import BigNumber from "bignumber.js"
-import { fetchData } from '../../../shared/utils/others';
+import { fetchData } from '../../shared/utils/others';
 
 const UserInfoDialog = ({open, handleClose}) => {
   const [loading, setLoading] = useState(false);

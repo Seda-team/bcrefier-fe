@@ -1,22 +1,21 @@
 import { useContext, useState, useEffect } from "react";
 import { Box, Typography, Link } from "@mui/material";
 import Connect from "./components/Connect";
-import ProofCreation from "./components/ProofCreation";
-import ProofHistory from "./components/ProofHistory";
-import ProofVerification from "./components/ProofVerification";
-import { GlobalContext } from "./context/GlobalState";
+import Lending from "./components/Lending";
+import Scoring from "./components/Scoring";
+import { GlobalContext } from "./components/context/GlobalState";
 
 function App() {
   const {address} = useContext(GlobalContext)
-  const [curNav, setCurNav] = useState("CREATE")
+  const [curNav, setCurNav] = useState("LENDING")
 
   const handleChangeNav = (e) => {
     setCurNav(e)
   }
   
   return (
-    <Box sx={{backgroundColor: "#DCDCDC", minHeight: "100vh"}}>
-      <Box sx={{height: "70px",
+    <Box sx={{backgroundImage: "linear-gradient(to left, #89f7fe, #fff991)", minHeight: "100vh"}}>
+      <Box sx={{height: "60px",
         backgroundColor: "black", 
         display: "flex", 
         justifyContent: "space-between", 
@@ -25,74 +24,75 @@ function App() {
 
         <Link sx={{textDecoration: "none"}} href="/">
           <Box sx={{display: "flex", alignItems: "center"}}>
-            <img id="header-logo" src="images/logo2.png"/>
-            <img id="header-text" src="images/logo5.png"/>
+            <img id="header-logo" src="images/Logo.png"/>
+            <img id="header-text" src="images/Name.png"/>
           </Box>
         </Link>
+        <Box sx={{display: "flex", marginLeft: "150px"}}>
+          <Box>
+            <Typography 
+              textAlign={"center"}
+              sx={curNav === "LENDING" ? { 
+                border: "3px solid #db6600",
+                borderRadius: "10px",
+                paddingTop: "5px",
+                fontSize: "25px", 
+                height: "40px", 
+                backgroundColor: "black",
+                width: "200px",
+                fontWeight: 800, 
+                marginRight: "10px",
+                color: "#db6600"} :
+                { 
+                  borderBottom: "3px solid #db6600",
+                  paddingTop: "5px",
+                  fontSize: "25px", 
+                  height: "40px", 
+                  backgroundColor: "black",
+                  width: "200px",
+                  fontWeight: 800, 
+                  marginRight: "10px",
+                  color: "#db6600"}}
+              onClick={() => handleChangeNav("LENDING")}>
+              Lending
+            </Typography>
+          </Box>
+          <Box>
+            <Typography 
+              textAlign={"center"}
+              sx={
+              curNav === "SCORING" ? { 
+              border: "3px solid #1E90FF",
+              borderRadius: "10px",
+              paddingTop: "5px",
+              fontSize: "25px", 
+              height: "40px", 
+              backgroundColor: "black",
+              width: "200px",
+              fontWeight: 800, 
+              color: "#1E90FF"}
+              :  {
+              borderBottom: "3px solid #1E90FF",
+              paddingTop: "5px",
+              fontSize: "25px", 
+              height: "40px", 
+              backgroundColor: "black",
+              width: "200px",
+              fontWeight: 800, 
+              color: "#1E90FF"}}
+              onClick={() => handleChangeNav("SCORING")}>
+              Scoring
+            </Typography>
+          </Box>
+        </Box>
         
         <Connect/>
       </Box>
-      <Box sx={{display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        borderBottomLeftRadius: "15px", 
-        borderBottomRightRadius: "15px", 
-        boxShadow: "0 0 10px #265D97",
-        width: "400px", 
-        margin: "0 auto"}}>
-        <Typography 
-          textAlign={"center"}
-          sx={curNav === "CREATE" ? { 
-          borderBottomLeftRadius: "15px",
-          paddingTop: "10px",
-          fontSize: "25px", 
-          height: "50px", 
-          backgroundColor: "black",
-          width: "200px",
-          fontWeight: 800, 
-          color: "#1E90FF"}: 
-          { borderBottomLeftRadius: "15px",
-          paddingTop: "10px",
-          fontSize: "25px", 
-          height: "50px", 
-          backgroundColor: "white",
-          width: "200px",
-          fontWeight: 800, 
-          color: "black"}}
-          onClick={() => handleChangeNav("CREATE")}>
-          Create Proof
-        </Typography>
-        <Typography 
-          textAlign={"center"}
-          sx={curNav === "VERIFY" ? { 
-          paddingTop: "10px",
-          fontSize: "25px", 
-          height: "50px", 
-          backgroundColor: "black",
-          borderBottomRightRadius: "15px", 
-          width: "200px",
-          fontWeight: 800, 
-          color: "#1E90FF"} : 
-          { borderBottomRightRadius: "15px",
-          paddingTop: "10px",
-          fontSize: "25px", 
-          height: "50px", 
-          backgroundColor: "white",
-          width: "200px",
-          fontWeight: 800, 
-          color: "black"}}
-          onClick={() => handleChangeNav("VERIFY")}>
-          Verify Proof
-        </Typography>
-      </Box>
-      
-      {curNav === "CREATE" ? 
+       {curNav === "LENDING" ? 
       <Box>
-        <ProofCreation/>
-        {address ? <ProofHistory/> : ""}
-      </Box> :
-      <Box>
-        <ProofVerification/>
+        <Lending/>
+      </Box> : <Box>
+        <Scoring/>
       </Box>}
       <Box sx={{
           color: "black",
@@ -107,10 +107,11 @@ function App() {
         }}>
           <Box sx={{
                 backgroundColor: "black",
-                color: "black",
+                color: "white",
                 textTransform: "none",
                 width: "180px",
-                height: "30px",
+                borderRadius: "10px",
+                height: "35px",
                 position: "fixed",
                 bottom: "20px",
                 display: "flex", 
@@ -120,17 +121,16 @@ function App() {
                 marginLeft: "50px",
                 marginBottom: "20px"}}>
                   
-                <img id="power-icon" src="images/logo2.png" /> 
+                <img id="power-icon" src="images/Logo.png" /> 
               <Typography
                 sx={{
                   
                   fontSize: "12px",
-                  color: "white",
                   fontWeight: "800"
                 }}
                 pt={0.5}
               >
-                Powered by SeDa Team
+                Powered by Zk Lenders
               </Typography>
             </Box>
       </Box>

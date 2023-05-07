@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { Button, Box, Typography, Paper, Dialog, DialogTitle, DialogContent } from '@mui/material'
-import { GlobalContext } from '../../context/GlobalState'
+import { GlobalContext } from '../context/GlobalState'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import UserInfoDialog from './UserInfoDialog';
-import { SEPOLIA_RPC } from '../../shared/constant/constant';
+import { SEPOLIA_RPC } from '../shared/constant/constant';
 import Web3 from "web3"
 
 const Connect = () => {
@@ -83,7 +83,7 @@ const Connect = () => {
     <Box>
       {connect ? <Box sx={{
           backgroundColor: "black",
-          color: "#1E90FF",
+          color: "white",
           borderTop: "0 px solid #1E90FF",
           borderRadius: "10px",
           textTransform: "none",
@@ -135,21 +135,30 @@ const Connect = () => {
       <Button
         sx={{
           backgroundColor: "black",
-          color: "#1E90FF",
-          borderTop: "0 px solid #1E90FF",
+          color: "white",
+          border: "2px solid white",
           borderRadius: "10px",
           textTransform: "none",
-          width: "200px",
-          height: "40px",
+          width: "170px",
+          height: "35px",
           fontSize: "16px",
           fontWeight: "500",
           "&:hover": {
             cursor: "pointer"
-          }
+            
+          },
+          display: "flex",
+          alignItems: "center"
         }}
         onClick={handleConnect}
       >
-        <AccountBalanceWalletIcon sx={{marginRight: "15px"}}/> Connect Wallet
+        <AccountBalanceWalletIcon sx={{marginRight: "15px", fontSize: "20px"}}/> 
+        <Typography sx={{fontSize: "15px",
+              fontWeight: "800",
+              display: "flex",
+              alignItems: "center"}}>
+          Connect Wallet
+        </Typography>
       </Button> } 
     </Box>
    

@@ -15,13 +15,13 @@ code {
 }
 
 #header-logo{
-  width: 70px;
+  width: 40px;
   margin-left: 80px;
   color: white
 }
 
 #header-text{
-  width: 170px;
+  width: 120px;
   margin-left: 15px;
 }
 
@@ -34,16 +34,14 @@ code {
 }
 
 #landing-page1 {
-  height: 60vh;
-  margin-top: 80px;
-  margin-right: 30px
+  height: 80vh;
 }
 
 #landing-page2 {
   height: 60vh;
-  margin-top: 80px
 }
 
 #power-icon {
-  height: 30px;
+  height: 25px;
+  margin-right: 5px
 }
